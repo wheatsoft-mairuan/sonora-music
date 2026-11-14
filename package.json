@@ -1,0 +1,30 @@
+{
+  "name": "sonora-music",
+  "version": "1.0.0",
+  "private": true,
+  "description": "声屿 SONORA — 基于 mdui 与 Material Design 3 的在线音乐播放器",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "build:android": "vite build --mode android && cap sync android",
+    "android:open": "cap open android",
+    "android:apk": "cd android && gradlew.bat assembleDebug"
+  },
+  "keywords": [
+    "music",
+    "mdui",
+    "material-design-3"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
+    "mdui": "^2.1.5"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
+    "vite": "^8.3.8"
+  }
+}

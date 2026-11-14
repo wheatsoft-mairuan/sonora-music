@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">声屿 SONORA</string>
+    <string name="title_activity_main">声屿 SONORA</string>
+    <string name="package_name">com.gdstudio.sonora</string>
+    <string name="custom_url_scheme">com.gdstudio.sonora</string>
+</resources>

@@ -1,0 +1,16 @@
+import { firefox } from 'playwright';
+const browser = await firefox.launch({ headless:true, env:{...process.env,MOZ_DISABLE_CONTENT_SANDBOX:'1',MOZ_DISABLE_RDD_SANDBOX:'1'}, firefoxUserPrefs:{'security.sandbox.content.level':0,'gfx.webrender.software':true,'media.autoplay.default':0}});
+const page = await browser.newPage({ viewport:{width:1440,height:900}, timezoneId:'Asia/Shanghai', locale:'zh-CN' });
+await page.goto('http://127.0.0.1:4173');
+await page.waitForTimeout(7000);
+await page.locator('[data-action="play-radio"]').first().click();
+await page.waitForTimeout(3000);
+console.log('before', await page.evaluate(()=>{const i=document.querySelector('#player-panel .player-cover img'); return {src:i?.src, complete:i?.complete, nw:i?.naturalWidth, html:document.querySelector('#player-panel .player-cover')?.innerHTML.slice(0,250)};}));
+await page.locator('.topbar .icon-button[data-action="open-settings"]').click();
+await page.waitForTimeout(500);
+await page.locator('[data-action="set-theme"][data-value="light"]').click();
+await page.waitForTimeout(3000);
+console.log('after', await page.evaluate(()=>{const i=document.querySelector('#player-panel .player-cover img'); return {src:i?.src, complete:i?.complete, nw:i?.naturalWidth, opacity:i&&getComputedStyle(i).opacity, filter:getComputedStyle(i).filter, html:document.querySelector('#player-panel .player-cover')?.innerHTML.slice(0,250)};}));
+await page.locator('#player-panel .player-cover').screenshot({ path:'/tmp/cover-light.png' });
+await page.screenshot({ path:'/tmp/light2.png' });
+await browser.close();

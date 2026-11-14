@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN" class="mdui-theme-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1613" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="color-scheme" content="dark light" />
+    <meta
+      name="description"
+      content="声屿 SONORA — 把夜晚调成喜欢的频率。一个安静、克制的在线音乐播放器。"
+    />
+    <title>声屿 SONORA · 把夜晚调成喜欢的频率</title>
+    <script>
+      (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem('sonora:settings') || '{}');
+          const theme = saved.theme || 'dark';
+          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          const dark = theme === 'dark' || (theme === 'auto' && !prefersLight);
+          document.documentElement.classList.toggle('mdui-theme-dark', dark);
+          document.documentElement.classList.toggle('mdui-theme-light', !dark);
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch {
+          /* keep the dark default */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="boot-screen" id="boot-screen" aria-live="polite">
+      <div class="boot-orbit" aria-hidden="true">
+        <span class="boot-ring"></span>
+        <span class="boot-ring boot-ring--inner"></span>
+        <span class="boot-dot"></span>
+      </div>
+      <p class="boot-brand">声屿 <span>SONORA</span></p>
+      <p class="boot-caption">正在调频…</p>
+    </div>
+
+    <div id="app" class="app-frame"></div>
+    <div id="portal"></div>
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

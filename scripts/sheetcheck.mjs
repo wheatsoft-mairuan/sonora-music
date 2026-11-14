@@ -1,0 +1,10 @@
+import { firefox } from 'playwright';
+const browser=await firefox.launch({headless:true,env:{...process.env,MOZ_DISABLE_CONTENT_SANDBOX:'1',MOZ_DISABLE_RDD_SANDBOX:'1'},firefoxUserPrefs:{'security.sandbox.content.level':0,'gfx.webrender.software':true,'media.autoplay.default':0}});
+const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,timezoneId:'Asia/Shanghai',locale:'zh-CN'});
+await page.goto('http://127.0.0.1:4173'); await page.waitForTimeout(7000);
+await page.locator('.track-card-main').first().scrollIntoViewIfNeeded(); await page.waitForTimeout(300);
+await page.locator('.track-card-main').first().click(); await page.waitForTimeout(5000);
+await page.locator('#mini-player .mini-meta').click(); await page.waitForTimeout(2000);
+console.log(await page.evaluate(()=>{const s=document.querySelector('#player-sheet');const cs=getComputedStyle(s);return {body:document.body.className,op:cs.opacity,tr:cs.transform,vis:cs.visibility,rect:s.getBoundingClientRect().toJSON(),h:cs.height,top:cs.top,scrollY:window.scrollY};}));
+await page.screenshot({path:'/tmp/sheet2.png'});
+await browser.close();

@@ -1,0 +1,16 @@
+import { firefox } from 'playwright';
+const browser=await firefox.launch({headless:true,env:{...process.env,MOZ_DISABLE_CONTENT_SANDBOX:'1',MOZ_DISABLE_RDD_SANDBOX:'1'},firefoxUserPrefs:{'security.sandbox.content.level':0,'gfx.webrender.software':true,'media.autoplay.default':0}});
+const page=await browser.newPage({viewport:{width:1440,height:900},timezoneId:'Asia/Shanghai',locale:'zh-CN'});
+await page.goto('http://127.0.0.1:4173'); await page.waitForTimeout(7000);
+await page.locator('[data-action="play-radio"]').first().click();
+await page.waitForTimeout(14000);
+console.log('toast', await page.locator('.toast').count());
+await page.screenshot({path:'screenshots/player.png'});
+const m=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,timezoneId:'Asia/Shanghai',locale:'zh-CN'});
+await m.goto('http://127.0.0.1:4173'); await m.waitForTimeout(7000);
+await m.locator('.track-card-main').first().scrollIntoViewIfNeeded(); await m.waitForTimeout(400);
+await m.locator('.track-card-main').first().click(); await m.waitForTimeout(7000);
+await m.locator('#mini-player .mini-meta').click(); await m.waitForTimeout(2200);
+console.log('sheet', await m.evaluate(()=>({body:document.body.className,tr:getComputedStyle(document.querySelector('#player-sheet')).transform,toast:document.querySelectorAll('.toast').length})));
+await m.screenshot({path:'screenshots/mobile-player.png'});
+await browser.close();
